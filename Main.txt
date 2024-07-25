@@ -1,0 +1,40 @@
+AI ChatBot with GPT-4 & MindsDB Code 
+
+-- Generate youtube credentials file 
+-- connect youtube with this credentials file to mindsdb
+CREATE DATABASE mindsdb_youtube
+WITH ENGINE = 'youtube',
+PARAMETERS = {
+    "credentials_file": "/mnt/desktop/yt_credentials.json"
+};
+
+
+--- Connection success
+--- You can list all the linked databases using the command below:
+SHOW DATABASES WHERE name = 'mindsdb_youtube';
+
+SELECT *
+FROM --define a table name to preview the data
+LIMIT 10; 
+
+
+CREATE ML_ENGINE openai_engine 
+    FROM openai 
+    USING 
+        open_api_key ='REDACTED (API token key goes here)'
+
+CREATE MODEL yt_sentiment_classifier
+PREDICT sentiment
+USING
+ engine = 'openai_engine',
+ model_name = 'gpt-3.5-turbo',
+ prompt_template = 'describe the sentiment of the comments
+                        strictly as "positive", "spam", or "negative".
+                        "I love this video":positive 
+                        "It is not a helpful content" :negative
+                        "{{comment}}.":';
+
+SELECT *
+FROM mindsdb_youtube.comments AS c
+JOIN yt_sentiment_classifier AS m
+WHERE c.video_id = "REDACTED (youtube video ID goes here)";
