@@ -1,6 +1,6 @@
 AI ChatBot with GPT-3.5-Turbo & MindsDB & POSTGRES SQL DB
 
-Used MindsDB and GPT-3.5-Turbo to build and AI chatbot that can analyze and respond to YouTube Comments. 
+Used MindsDB and GPT-3.5-Turbo to build an AI chatbot that can analyze and respond to YouTube Comments. 
 
 How? 
 
